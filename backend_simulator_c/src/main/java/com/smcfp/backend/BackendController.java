@@ -8,13 +8,13 @@ public class BackendController {
 
     @GetMapping("/")
     public String home() {
-        return "Welcome to Backend C";
+        return "Welcome to GCP";
     }
 
     @GetMapping("/health")
     public Map<String, String> health() {
         return Map.of(
-            "backend", "Backend C",
+            "backend", "GCP",
             "status", "UP"
         );
     }
@@ -24,7 +24,7 @@ public class BackendController {
             @RequestBody Map<String, String> request) {
 
         return Map.of(
-            "backend", "Backend C",
+            "backend", "GCP",
             "status", "Request received",
             "message", request.getOrDefault("message", "No message received")
         );
