@@ -1,3 +1,5 @@
+server:
+  port: 8080
 
 spring:
   application:
@@ -8,7 +10,6 @@ spring:
       server:
         webflux:
           routes:
-
             - id: backend-1
               uri: http://localhost:8081
               predicates:
@@ -35,9 +36,6 @@ spring:
               predicates:
                 - Path=/roundrobin/**
 
-server:
-  port: 8080
-
 management:
   endpoints:
     web:
@@ -47,3 +45,29 @@ management:
 logging:
   level:
     org.springframework.cloud.gateway: INFO
+
+smcfp:
+  backends:
+    - id: backend-a
+      provider: AWS
+      name: AWS
+      url: http://localhost:8081
+      enabled: true
+      priority: 1
+      weight: 1
+
+    - id: backend-b
+      provider: Azure
+      name: Azure
+      url: http://localhost:8082
+      enabled: true
+      priority: 2
+      weight: 2
+
+    - id: backend-c
+      provider: GCP
+      name: GCP
+      url: http://localhost:8083
+      enabled: true
+      priority: 3
+      weight: 2
