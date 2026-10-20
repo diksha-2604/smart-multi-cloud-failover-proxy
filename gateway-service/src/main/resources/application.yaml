@@ -1,67 +1,73 @@
 server:
-port: 8080
+  port: 8080
 
 spring:
-application:
-name: gateway-service
-cloud:
-gateway:
-server:
-webflux:
-routes:
-- id: backend-1
-uri: http://localhost:8081
-predicates:
-- Path=/backend1/**
-filters:
-- StripPrefix=1
+  application:
+    name: gateway-service
 
-        - id: backend-2
-          uri: http://localhost:8082
-          predicates:
-            - Path=/backend2/**
-          filters:
-            - StripPrefix=1
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: backend-1
+              uri: http://localhost:8081
+              predicates:
+                - Path=/backend1/**
+              filters:
+                - StripPrefix=1
 
-        - id: backend-3
-          uri: http://localhost:8083
-          predicates:
-            - Path=/backend3/**
-          filters:
-            - StripPrefix=1
+            - id: backend-2
+              uri: http://localhost:8082
+              predicates:
+                - Path=/backend2/**
+              filters:
+                - StripPrefix=1
+
+            - id: backend-3
+              uri: http://localhost:8083
+              predicates:
+                - Path=/backend3/**
+              filters:
+                - StripPrefix=1
+
+            - id: round-robin-demo
+              uri: http://localhost:8081
+              predicates:
+                - Path=/roundrobin/**
 
 management:
-endpoints:
-web:
-exposure:
-include: health,info
+  endpoints:
+    web:
+      exposure:
+        include: health,info
 
 logging:
-level:
-org.springframework.cloud.gateway: INFO
+  level:
+    org.springframework.cloud.gateway: INFO
 
 smcfp:
-backends:
-- id: backend-a
-provider: AWS
-name: AWS
-url: http://localhost:8081
-enabled: true
-priority: 1
-weight: 1
+  backends:
+    - id: backend-a
+      provider: AWS
+      name: AWS
+      url: http://localhost:8081
+      enabled: true
+      priority: 1
+      weight: 1
 
-- id: backend-b
-  provider: Azure
-  name: Azure
-  url: http://localhost:8082
-  enabled: true
-  priority: 2
-  weight: 2
+    - id: backend-b
+      provider: Azure
+      name: Azure
+      url: http://localhost:8082
+      enabled: true
+      priority: 2
+      weight: 2
 
-- id: backend-c
-  provider: GCP
-  name: GCP
-  url: http://localhost:8083
-  enabled: true
-  priority: 3
-  weight: 2
+    - id: backend-c
+      provider: GCP
+      name: GCP
+      url: http://localhost:8083
+      enabled: true
+      priority: 3
+      weight: 2
