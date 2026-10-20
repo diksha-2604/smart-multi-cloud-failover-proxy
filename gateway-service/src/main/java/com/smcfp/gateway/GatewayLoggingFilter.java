@@ -1,3 +1,4 @@
+
 package com.smcfp.gateway;
 
 import java.util.UUID;
@@ -28,13 +29,11 @@ public class GatewayLoggingFilter implements GlobalFilter, Ordered {
 
         String path = exchange.getRequest().getURI().getPath();
 
-        // Do not record calls made to our own monitoring endpoints.
+        // Exclude monitoring endpoints from request history.
         if (path.equals("/metrics/requests")
                 || path.equals("/requests/history")) {
             return chain.filter(exchange);
         }
-
-        String backend = identifyBackend(path);
 
         String requestId = exchange.getRequest()
                 .getHeaders()
@@ -46,73 +45,89 @@ public class GatewayLoggingFilter implements GlobalFilter, Ordered {
 
         final String currentRequestId = requestId;
 
-        // Pass the request ID downstream.
         ServerWebExchange updatedExchange = exchange.mutate()
                 .request(builder -> builder.header(
                         "X-SMCFP-Request-Id",
                         currentRequestId))
                 .build();
 
+        // Identify direct backend routes immediately.
+        String backend = identifyBackend(path);
+
+        // For Round Robin, the backend is selected by a later filter.
+        // Use a request-scoped mutable holder so that selection is visible
+        // when the response completes.
+        BackendHolder backendHolder = new BackendHolder(backend);
+
+        updatedExchange.getAttributes().put(
+                "smcfp.backendHolder", backendHolder);
+        
+        updatedExchange.getAttributes().put(
+                "smcfp.requestId", currentRequestId);
+
+        updatedExchange.getAttributes().put(
+                "smcfp.requestPath", path);
         String attemptId = metrics.startAttempt(
                 currentRequestId,
                 1,
                 path,
-                backend
-        );
+                backend);
 
-        System.out.println(
-                "[REQUEST] ID: " + currentRequestId
-                + " | Path: " + path
-                + " | Backend: " + backend
-                + " | Attempt: 1"
-        );
+        updatedExchange.getAttributes().put(
+                "smcfp.attemptId", attemptId);
+
+        if (!path.equals("/roundrobin")
+                        && !path.startsWith("/roundrobin/")) {
+                System.out.println(
+                        "[REQUEST] ID: " + currentRequestId
+                        + " | Path: " + path
+                        + " | Backend: " + backend
+                        + " | Attempt: 1");
+        }
 
         return chain.filter(updatedExchange)
                 .doOnError(error -> {
-                    String reason = error.getMessage();
+                    String selectedBackend = backendHolder.getBackend();
 
+                    String reason = error.getMessage();
                     if (reason == null || reason.isBlank()) {
                         reason = error.getClass().getSimpleName();
                     }
 
-                    // Record the failed backend connection as 502.
-                    metrics.completeAttempt(
-                            attemptId, 502, reason);
+                    metrics.updateBackend(attemptId, selectedBackend);
+                    metrics.completeAttempt(attemptId, 502, reason);
 
                     System.out.println(
                             "[FAILED] Request ID: " + currentRequestId
-                            + " | Backend: " + backend
+                            + " | Backend: " + selectedBackend
                             + " | Status: 502"
-                            + " | Reason: " + reason
-                    );
+                            + " | Reason: " + reason);
                 })
                 .onErrorResume(error -> {
-                    // Return a gateway error if the response is not committed.
                     if (!updatedExchange.getResponse().isCommitted()) {
                         updatedExchange.getResponse().setStatusCode(
                                 HttpStatus.BAD_GATEWAY);
                     }
-
                     return updatedExchange.getResponse().setComplete();
                 })
                 .then(Mono.fromRunnable(() -> {
+                    String selectedBackend = backendHolder.getBackend();
+
                     HttpStatusCode status =
                             updatedExchange.getResponse().getStatusCode();
 
-                    int statusCode = status != null
-                            ? status.value() : 0;
+                    int statusCode = status != null ? status.value() : 0;
 
-                    metrics.completeAttempt(
-                            attemptId, statusCode, null);
+                    metrics.updateBackend(attemptId, selectedBackend);
+                    metrics.completeAttempt(attemptId, statusCode, null);
 
                     System.out.println(
                             "[RESPONSE] Request ID: " + currentRequestId
-                            + " | Backend: " + backend
+                            + " | Backend: " + selectedBackend
                             + " | Status: " + statusCode
                             + " | Result: "
                             + (statusCode >= 200 && statusCode < 300
-                                    ? "PASSED" : "FAILED")
-                    );
+                                    ? "PASSED" : "FAILED"));
                 }));
     }
 
@@ -138,5 +153,23 @@ public class GatewayLoggingFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         return -1;
+    }
+
+    public static class BackendHolder {
+        private volatile String backend;
+
+        public BackendHolder(String backend) {
+            this.backend = backend;
+        }
+
+        public String getBackend() {
+            return backend;
+        }
+
+        public void setBackend(String backend) {
+            if (backend != null && !backend.isBlank()) {
+                this.backend = backend;
+            }
+        }
     }
 }

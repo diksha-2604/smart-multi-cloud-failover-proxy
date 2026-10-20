@@ -71,6 +71,19 @@ public class GatewayRequestMetrics {
         return attemptId;
     }
 
+    public synchronized void updateBackend(
+        String attemptId,
+        String backend) {
+
+        RequestAttempt attempt = attemptsById.get(attemptId);
+
+        if (attempt == null || backend == null || backend.isBlank()) {
+            return;
+        }
+
+        attempt.setBackend(backend);
+        saveHistory();
+    }
     public synchronized void completeAttempt(
             String attemptId,
             int statusCode,
