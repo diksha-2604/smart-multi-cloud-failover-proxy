@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SMCFP | Multi-Cloud Observability</title>
+<style>
+:root{--bg:#07111f;--panel:#0d1b2d;--line:#20344b;--text:#e8f0fb;--muted:#8da3bd;--blue:#48a8ff;--cyan:#43d5e8;--green:#35d49a;--amber:#ffbf5b;--red:#ff657a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 "Segoe UI",Arial,sans-serif}.app{display:grid;grid-template-columns:225px 1fr;min-height:100vh}.side{background:#091625;border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:22px}.brand{display:flex;gap:10px;align-items:center;padding:0 8px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#2789ff,#39d6d0);display:grid;place-items:center;color:#061423;font-weight:900;font-size:20px}.brand strong{display:block}.brand small,.muted{color:var(--muted)}.brand small{font-size:10px}.navlabel{color:#607a98;text-transform:uppercase;font-size:10px;letter-spacing:1.5px;padding:0 10px}.nav{display:grid;gap:5px}.nav button{border:1px solid transparent;background:transparent;color:#a9bad0;text-align:left;padding:11px;border-radius:9px;cursor:pointer}.nav button.active,.nav button:hover{background:#112a43;border-color:#244866;color:white}.nav button span{display:inline-block;width:26px;color:var(--cyan)}.sidefoot{margin-top:auto;padding:12px;background:#0d2033;border:1px solid var(--line);border-radius:10px;font-size:11px;color:var(--muted)}.main{padding:24px 28px;min-width:0}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:22px}.eyebrow{font-size:10px;color:var(--cyan);letter-spacing:1.8px;text-transform:uppercase;font-weight:bold}.top h1{font-size:25px;margin:5px 0}.subtitle{color:var(--muted)}.btn{border:1px solid #2b4968;background:#10243a;color:#d7e8fa;border-radius:8px;padding:9px 12px;cursor:pointer}.primary{background:#1977d2;border-color:#2689e8;color:white}.live{color:var(--green);font-size:11px}.live:before{content:"";display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;margin-right:7px}.headrow{display:flex;justify-content:space-between;align-items:center;margin:22px 0 11px}.headrow h2{font-size:14px;margin:0}.headrow p{font-size:11px;color:var(--muted);margin:3px 0}.tag{font-size:10px;color:#9bb4ce;background:#12263c;border:1px solid #263d56;border-radius:20px;padding:5px 9px}.grid{display:grid;gap:12px}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:linear-gradient(145deg,#102138,#0b192a);border:1px solid var(--line);border-radius:12px;padding:15px;min-width:0}.label{color:#a6bad1;font-size:12px;display:flex;justify-content:space-between}.icon{width:29px;height:29px;border-radius:9px;background:#173454;color:var(--blue);display:grid;place-items:center}.value{font-size:27px;font-weight:750;margin:12px 0 3px}.value small{font-size:12px;color:#91a9c4;font-weight:500}.trend{font-size:11px;color:var(--green)}.backends{grid-template-columns:repeat(3,minmax(0,1fr))}.backendtop{display:flex;justify-content:space-between;align-items:center;gap:8px}.cloud{display:flex;gap:9px;align-items:center}.cloudlogo{width:37px;height:37px;border-radius:10px;background:#183451;display:grid;place-items:center;color:#8bc7ff;font-weight:bold}.cloud h3{margin:0;font-size:13px}.cloud p{margin:3px 0 0;font-size:10px;color:var(--muted)}.status{font-size:9px;border-radius:20px;padding:5px 7px;background:#103a31;color:#65e5b4;border:1px solid #1c634f;white-space:nowrap}.status.warn{background:#3b2c16;color:#ffcb72;border-color:#755323}.status.down{background:#3b1c2a;color:#ff8595;border-color:#713044}.metrics{display:flex;justify-content:space-between;border-top:1px solid var(--line);margin-top:13px;padding-top:11px;gap:8px;color:var(--muted);font-size:10px}.metrics strong{display:block;color:#e5eef9;font-size:14px;margin-top:3px}.twocol{grid-template-columns:1.4fr 1fr}.chart{height:205px;width:100%;display:block;margin-top:8px}.charttitle{display:flex;justify-content:space-between;gap:8px}.charttitle h3{font-size:13px;margin:0}.charttitle p{font-size:10px;color:var(--muted);margin:4px 0}.lower{grid-template-columns:1.2fr 1fr}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:10px}th{text-align:left;color:#7891ad;padding:10px 7px;border-bottom:1px solid var(--line)}td{padding:10px 7px;border-bottom:1px solid #1b2e43;color:#c1d1e2}.eventtag{font-size:9px;border-radius:5px;padding:4px 6px;background:#10382f;color:#66e4b6}.eventtag.info{background:#142f4c;color:#83c6ff}.eventtag.warn{background:#3a2c18;color:#ffcb72}.eventtag.fail{background:#3b1c2a;color:#ff8595}.notice{padding:11px;background:#13263a;border:1px solid #27435e;border-radius:9px;color:#a9bfd7;font-size:10px;margin-top:14px}.notice strong{color:#e8f3ff}.page{display:none}.page.active{display:block}.feed{display:grid;gap:13px;margin-top:14px}.feeditem{display:grid;grid-template-columns:10px 1fr;gap:9px}.feeditem i{width:8px;height:8px;border-radius:50%;background:var(--cyan);margin-top:5px}.feeditem strong{font-size:11px}.feeditem p{font-size:10px;color:var(--muted);margin:3px 0}.footer{display:flex;justify-content:space-between;gap:10px;color:#58728d;font-size:10px;margin-top:22px;padding-top:13px;border-top:1px solid var(--line)}.hidden{display:none!important}.warning{font-size:10px;color:var(--amber);border:1px solid #755323;background:#3b2c16;border-radius:6px;padding:5px 8px}.toast{position:fixed;right:20px;bottom:20px;background:#12352f;border:1px solid #23765d;color:#b7ffe4;padding:12px 16px;border-radius:10px;z-index:5}
+@media(max-width:1000px){.app{grid-template-columns:190px 1fr}.main{padding:18px}.stats{grid-template-columns:repeat(2,1fr)}.backends,.twocol,.lower{grid-template-columns:1fr}}@media(max-width:650px){.app{grid-template-columns:1fr}.side{padding:12px;gap:10px}.nav{grid-template-columns:repeat(3,1fr)}.nav button{font-size:11px;padding:8px}.navlabel,.sidefoot{display:none}.main{padding:14px}}
+</style>
+<style id="light-theme-overrides">
+:root {
+  color-scheme: light;
+}
+html, body {
+  background: #f3f6fb !important;
+  color: #17243a !important;
+}
+body {
+  background: #f3f6fb !important;
+  color: #17243a !important;
+}
+.sidebar, aside, nav {
+  background: #ffffff !important;
+  border-color: #dce5f0 !important;
+  color: #26364d !important;
+}
+main, .main, .content, .workspace, .page {
+  background: #f3f6fb !important;
+  color: #17243a !important;
+}
+.card, .panel, .metric-card, .backend-card, .chart-card, .event-card,
+.stat-card, .section-card, .config-card, .log-card, .failover-card {
+  background: #ffffff !important;
+  border-color: #dce5f0 !important;
+  color: #17243a !important;
+  box-shadow: 0 3px 12px rgba(25, 50, 80, 0.06) !important;
+}
+h1, h2, h3, h4, strong, b, .value, .metric-value, .backend-name {
+  color: #17243a !important;
+}
+p, label, .muted, .subtitle, .description, .meta, small {
+  color: #5d718b !important;
+}
+a, .nav-item, button.secondary, .tab, .pill {
+  color: #31516f;
+}
+.nav-item:hover, .nav-item.active, .active-nav {
+  background: #e8f2ff !important;
+  border-color: #c8def8 !important;
+  color: #1558a6 !important;
+}
+button, .btn, .primary-button {
+  color: #ffffff !important;
+}
+button.secondary, .btn-secondary {
+  background: #edf3fa !important;
+  color: #24415f !important;
+  border-color: #d2dfed !important;
+}
+input, select, textarea {
+  background: #ffffff !important;
+  color: #17243a !important;
+  border-color: #cbd8e6 !important;
+}
+table, th, td {
+  color: #26364d !important;
+  border-color: #e1e8f0 !important;
+}
+thead, th {
+  background: #f6f9fd !important;
+}
+tr:hover td {
+  background: #f7faff !important;
+}
+.notice, .prototype-notice, .info-box {
+  background: #eef5fc !important;
+  border-color: #d0e1f3 !important;
+  color: #304963 !important;
+}
+footer {
+  border-color: #dce5f0 !important;
+  color: #61758e !important;
+}
+.badge, .status, .healthy, .failed, .warning, .recovered {
+  /* Keep existing semantic status colors readable in light mode. */
+}
+canvas {
+  border-radius: 8px;
+}
+</style>
+
+</head>
+<body><div class="app">
+<aside class="side"><div class="brand"><div class="logo">S</div><div><strong>SMCFP</strong><small>Multi-Cloud Failover Proxy</small></div></div><div class="navlabel">Workspace</div>
+<nav class="nav"><button class="active" data-page="overview"><span>▦</span>Overview</button><button data-page="health"><span>◉</span>Backend Health</button><button data-page="traffic"><span>⌁</span>Traffic &amp; Load</button><button data-page="failover"><span>⇄</span>Failover</button><button data-page="events"><span>≡</span>Logs &amp; Events</button><button data-page="config"><span>⚙</span>Configuration</button></nav>
+<div class="sidefoot">● Demo environment<br><br>Animated prototype. Not connected to live failover controls.</div></aside>
+<main class="main"><header class="top"><div><div class="eyebrow">Observability / Control Plane</div><h1 id="pagetitle">System Overview</h1><div class="subtitle" id="pagesub">Monitor backend health, request traffic, and service performance.</div></div><div><span class="live">Demo running</span>　<button class="btn" id="mode">SIMULATION MODE</button>　<button class="btn primary" id="run">▶ Run failover demo</button></div></header>
+<section class="page active" id="overview">
+<div class="headrow"><div><h2>System at a glance</h2><p>Illustrative demo values update while this page is open.</p></div><span class="tag">AUTO-REFRESH · 2 SEC</span></div>
+<div class="grid stats"><div class="card"><div class="label">Total Requests <span class="icon">↗</span></div><div class="value" id="requests">12,486</div><div class="trend">↑ 4.8% <span class="muted">during demo</span></div></div><div class="card"><div class="label">Success Rate <span class="icon">✓</span></div><div class="value">99.92<small>%</small></div><div class="trend">Healthy request flow</div></div><div class="card"><div class="label">Error Rate <span class="icon">!</span></div><div class="value" id="error">0.08<small>%</small></div><div class="trend" style="color:var(--amber)">Within demo threshold</div></div><div class="card"><div class="label">Avg Response Time <span class="icon">◷</span></div><div class="value" id="latency">42<small> ms</small></div><div class="trend">Response latency</div></div></div>
+<div class="headrow"><div><h2>Backend health</h2><p>Three simulated cloud-provider backends for presentation flow.</p></div><span class="tag">3 BACKENDS</span></div><div class="grid backends" id="backends"></div>
+<div class="headrow"><div><h2>Traffic &amp; performance</h2><p>Illustrative time series for video demonstration.</p></div><span class="tag">LAST 60 SECONDS</span></div>
+<div class="grid twocol"><div class="card"><div class="charttitle"><div><h3>Request throughput</h3><p>Requests per second</p></div><span class="muted">● Requests/sec</span></div><canvas class="chart" id="trafficChart"></canvas></div><div class="card"><div class="charttitle"><div><h3>Response latency</h3><p>Average milliseconds</p></div><span class="muted">● Latency</span></div><canvas class="chart" id="latencyChart"></canvas></div></div>
+<div class="grid lower" style="margin-top:12px"><div class="card"><div class="charttitle"><div><h3>Recent system events</h3><p>Latest simulated health and routing events</p></div><button class="btn" data-goto="events">View all</button></div><div class="tablewrap"><table><thead><tr><th>TIME</th><th>EVENT</th><th>COMPONENT</th><th>STATUS</th></tr></thead><tbody id="eventrows"></tbody></table></div></div><div class="card"><div class="charttitle"><div><h3>Failover status</h3><p>Current demonstration state</p></div><span class="status" id="failbadge">STANDBY</span></div><div style="font-size:22px;font-weight:bold;margin:18px 0 5px" id="active">Backend A <small class="muted">active</small></div><p class="muted" id="failtext" style="font-size:11px">No simulated failure active. Use “Run failover demo” to view the sequence.</p><div class="notice"><strong>Prototype notice</strong><br>Values and failover animation are illustrative. They do not represent measured cloud telemetry or a real gateway switch.</div></div></div>
+</section>
+<section class="page" id="health"><div class="headrow"><div><h2>Backend health overview</h2><p>Illustrative status of the three planned backend simulators.</p></div><span class="warning">SIMULATED</span></div><div class="grid backends" id="healthcards"></div><div class="card" style="margin-top:12px"><h3>Health-check policy</h3><p class="muted">Planned behavior: periodically probe registered backends, track consecutive failures and successes, and expose health metrics. The current implemented checker monitors Backend A only; this screen is a UI prototype for all three providers.</p></div></section>
+<section class="page" id="traffic"><div class="headrow"><div><h2>Traffic &amp; load</h2><p>Request throughput and latency trend.</p></div><span class="warning">SIMULATED DATA</span></div><div class="grid twocol"><div class="card"><h3>Request throughput</h3><canvas class="chart" id="trafficChart2"></canvas></div><div class="card"><h3>Response latency</h3><canvas class="chart" id="latencyChart2"></canvas></div></div><div class="notice">Your existing Grafana dashboard uses Prometheus metrics. This standalone prototype uses illustrative values; live integration requires a backend/API connection.</div></section>
+<section class="page" id="failover"><div class="headrow"><div><h2>Failover demonstration</h2><p>Preview failure → reroute → recovery.</p></div><span class="warning">SIMULATED SCENARIO</span></div><div class="grid stats"><div class="card"><div class="label">Active backend</div><div class="value" id="factive">Backend A</div></div><div class="card"><div class="label">Failover events</div><div class="value" id="fcount">0</div></div><div class="card"><div class="label">Recovery state</div><div class="value" style="font-size:22px" id="recovery">Ready</div></div><div class="card"><div class="label">Last transition</div><div class="value" style="font-size:20px" id="last">—</div></div></div><div class="card" style="margin-top:12px"><h3>Sequence</h3><div class="feed"><div class="feeditem"><i></i><div><strong>1. Normal operation</strong><p>Backend A is healthy in the demo.</p></div></div><div class="feeditem"><i></i><div><strong>2. Failure detected</strong><p>The UI marks Backend A as unhealthy.</p></div></div><div class="feeditem"><i></i><div><strong>3. Traffic rerouted</strong><p>The UI highlights Backend B as simulated active backend.</p></div></div><div class="feeditem"><i></i><div><strong>4. Recovery</strong><p>Backend A returns to healthy in the simulation.</p></div></div></div><button class="btn primary" id="run2">▶ Run simulated sequence</button><p class="muted">This animation does not call or control the real gateway.</p></div></section>
+<section class="page" id="events"><div class="headrow"><div><h2>Logs &amp; events</h2><p>Simulated events generated by this UI prototype.</p></div><button class="btn" id="clear">Clear demo events</button></div><div class="card tablewrap"><table><thead><tr><th>TIME</th><th>EVENT</th><th>COMPONENT</th><th>DETAIL</th><th>STATUS</th></tr></thead><tbody id="allrows"></tbody></table></div><p class="muted">Real event history requires the backend to publish events or metrics.</p></section>
+<section class="page" id="config"><div class="headrow"><div><h2>Configuration</h2><p>Illustrative configuration view for the planned proxy.</p></div><span class="warning">PREVIEW</span></div><div class="grid twocol"><div class="card"><h3>Backend registry</h3><div class="feed"><div class="feeditem"><i></i><div><strong>Backend A · AWS simulator</strong><p>http://localhost:8081 · configured in demo view</p></div></div><div class="feeditem"><i></i><div><strong>Backend B · Azure simulator</strong><p>Planned endpoint · connect when available</p></div></div><div class="feeditem"><i></i><div><strong>Backend C · GCP simulator</strong><p>Planned endpoint · connect when available</p></div></div></div></div><div class="card"><h3>Monitoring pipeline</h3><div class="feed"><div class="feeditem"><i></i><div><strong>Spring Boot Actuator</strong><p>Exposes application health and metrics.</p></div></div><div class="feeditem"><i></i><div><strong>Micrometer + Prometheus</strong><p>Exports and collects metrics.</p></div></div><div class="feeditem"><i></i><div><strong>Grafana Cloud</strong><p>Existing real monitoring dashboard.</p></div></div></div></div></div></section>
+<div class="footer"><span>SMCFP · Smart Multi-Cloud Failover Proxy</span><span>Animated UI prototype · illustrative values unless connected to live telemetry</span></div>
+</main></div><div id="toast" class="toast hidden"></div>
+<script>
+const names={overview:["System Overview","Monitor backend health, request traffic, and service performance."],health:["Backend Health","Inspect simulated cloud-provider backends."],traffic:["Traffic & Load","Explore illustrative request and latency trends."],failover:["Failover Demonstration","Preview the planned failure, reroute, and recovery sequence."],events:["Logs & Events","Review simulated health and routing events."],config:["Configuration","View planned backend and monitoring configuration."]};
+let activePage="overview",requests=12486,lat=42,failCount=0,active="A",failing=false,events=[{time:"just now",event:"Health check successful",component:"Backend A",detail:"Demo health endpoint returned UP.",type:"OK"},{time:"1 min ago",event:"Metrics scrape completed",component:"Gateway",detail:"Prometheus scrape endpoint reachable in current project.",type:"INFO"},{time:"2 min ago",event:"Backend registry loaded",component:"Proxy",detail:"Demo backend cards initialized.",type:"INFO"}],traffic=Array.from({length:28},(_,i)=>48+Math.random()*25+Math.sin(i/3)*7),lats=Array.from({length:28},()=>35+Math.random()*17);
+function backend(id){let d={A:["Backend A","AWS · us-east-1","A","38 ms","1,240","99.98%"],B:["Backend B","Azure · central-us","M","46 ms","980","99.95%"],C:["Backend C","GCP · us-central1","G","51 ms","760","99.91%"]}[id],bad=failing&&id==="A";return `<div class="card"><div class="backendtop"><div class="cloud"><div class="cloudlogo">${d[2]}</div><div><h3>${d[0]}</h3><p>${d[1]}</p></div></div><span class="status ${bad?'down':''}">${bad?'UNHEALTHY':'HEALTHY'}</span></div><div class="metrics"><div>Response time<strong>${bad?'timeout':d[3]}</strong></div><div>Requests/min<strong>${id===active?'1,240':d[4]}</strong></div><div>Uptime<strong>${bad?'—':d[5]}</strong></div></div></div>`}
+function renderBackends(){let s=["A","B","C"].map(backend).join("");document.getElementById("backends").innerHTML=s;document.getElementById("healthcards").innerHTML=s;document.getElementById("active").innerHTML=`Backend ${active} <small class="muted">active · simulated</small>`;document.getElementById("factive").textContent="Backend "+active;document.getElementById("fcount").textContent=failCount}
+function tag(t){return t==="OK"?'<span class="eventtag">HEALTHY</span>':t==="WARN"?'<span class="eventtag warn">WARNING</span>':t==="FAIL"?'<span class="eventtag fail">FAILED</span>':'<span class="eventtag info">INFO</span>'}
+function renderEvents(){document.getElementById("eventrows").innerHTML=events.slice(0,4).map(e=>`<tr><td>${e.time}</td><td>${e.event}</td><td>${e.component}</td><td>${tag(e.type)}</td></tr>`).join("");document.getElementById("allrows").innerHTML=events.map(e=>`<tr><td>${e.time}</td><td>${e.event}</td><td>${e.component}</td><td>${e.detail}</td><td>${tag(e.type)}</td></tr>`).join("")}
+function addEvent(event,component,detail,type="INFO"){events.unshift({time:new Date().toLocaleTimeString(),event,component,detail,type});events=events.slice(0,30);renderEvents()}
+function chart(id,data,color){let c=document.getElementById(id);if(!c)return;let r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;c.width=Math.max(280,r.width)*d;c.height=205*d;let x=c.getContext("2d"),w=c.width/d,h=c.height/d;x.scale(d,d);x.clearRect(0,0,w,h);let p={l:30,r:7,t:10,b:22},cw=w-p.l-p.r,ch=h-p.t-p.b,max=Math.ceil(Math.max(...data)*1.25/10)*10;x.font="10px Segoe UI";for(let i=0;i<5;i++){let y=p.t+ch*i/4;x.strokeStyle="#20344b";x.beginPath();x.moveTo(p.l,y);x.lineTo(w-p.r,y);x.stroke();x.fillStyle="#7891ad";x.fillText(Math.round(max*(1-i/4)),2,y+3)}["-60s","-45s","-30s","-15s","now"].forEach((t,i)=>x.fillText(t,p.l+cw*i/4-9,h-4));let pts=data.map((v,i)=>({x:p.l+cw*i/(data.length-1),y:p.t+ch-v/max*ch}));x.beginPath();pts.forEach((a,i)=>i?x.lineTo(a.x,a.y):x.moveTo(a.x,a.y));x.strokeStyle=color;x.lineWidth=2;x.stroke();let g=x.createLinearGradient(0,p.t,0,h-p.b);g.addColorStop(0,color+"44");g.addColorStop(1,color+"00");x.lineTo(pts.at(-1).x,h-p.b);x.lineTo(pts[0].x,h-p.b);x.closePath();x.fillStyle=g;x.fill()}
+function charts(){chart("trafficChart",traffic,"#48a8ff");chart("latencyChart",lats,"#43d5e8");chart("trafficChart2",traffic,"#48a8ff");chart("latencyChart2",lats,"#43d5e8")}
+function go(p){activePage=p;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));document.querySelectorAll(".page").forEach(s=>s.classList.toggle("active",s.id===p));document.getElementById("pagetitle").textContent=names[p][0];document.getElementById("pagesub").textContent=names[p][1];charts()}
+document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>go(b.dataset.page));document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>go(b.dataset.goto));
+function toast(s){let t=document.getElementById("toast");t.textContent=s;t.classList.remove("hidden");setTimeout(()=>t.classList.add("hidden"),3000)}
+function runDemo(){document.getElementById("run").disabled=true;document.getElementById("run2").disabled=true;failing=true;lat=186;document.getElementById("latency").innerHTML=lat+"<small> ms</small>";document.getElementById("failbadge").className="status down";document.getElementById("failbadge").textContent="FAILURE DETECTED";document.getElementById("failtext").textContent="Simulated Backend A failure detected. Demo only.";document.getElementById("recovery").textContent="Failing";renderBackends();addEvent("Backend health check failed","Backend A","Simulated timeout detected.","FAIL");toast("Demo: Backend A failure simulated");setTimeout(()=>{active="B";failCount++;document.getElementById("failbadge").className="status warn";document.getElementById("failbadge").textContent="REROUTED";document.getElementById("failtext").textContent="UI highlights Backend B as the simulated active backend.";document.getElementById("recovery").textContent="Rerouted";document.getElementById("last").textContent=new Date().toLocaleTimeString();renderBackends();addEvent("Traffic rerouted (simulation)","Backend B","UI switched active-backend indicator after simulated failure.","WARN");toast("Demo: traffic rerouted to Backend B")},2000);setTimeout(()=>{failing=false;active="A";lat=42;document.getElementById("latency").innerHTML=lat+"<small> ms</small>";document.getElementById("failbadge").className="status";document.getElementById("failbadge").textContent="RECOVERED";document.getElementById("failtext").textContent="Demo complete. Backend A is shown as recovered.";document.getElementById("recovery").textContent="Recovered";document.getElementById("last").textContent=new Date().toLocaleTimeString();document.getElementById("run").disabled=false;document.getElementById("run2").disabled=false;renderBackends();addEvent("Backend A recovered (simulation)","Backend A","UI returned to normal demo state.","OK");toast("Demo complete: recovery simulated")},5500)}
+document.getElementById("run").onclick=runDemo;document.getElementById("run2").onclick=runDemo;document.getElementById("clear").onclick=()=>{events=[];renderEvents();toast("Demo events cleared")};
+setInterval(()=>{requests+=Math.floor(Math.random()*8+3);lat=failing?186:Math.max(25,Math.min(65,lat+(Math.random()-.5)*5));document.getElementById("requests").textContent=requests.toLocaleString();if(!failing)document.getElementById("latency").innerHTML=Math.round(lat)+"<small> ms</small>";traffic.push(Math.max(18,Math.min(95,traffic.at(-1)+(Math.random()-.48)*13)));traffic.shift();lats.push(failing?lat:Math.max(25,Math.min(70,lats.at(-1)+(Math.random()-.5)*8)));lats.shift();charts()},2000);
+renderBackends();renderEvents();charts();window.addEventListener("resize",charts);
+</script></body></html>
