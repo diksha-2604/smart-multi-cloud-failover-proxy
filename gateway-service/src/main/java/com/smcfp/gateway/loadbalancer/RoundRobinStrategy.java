@@ -19,7 +19,7 @@ public class RoundRobinStrategy implements LoadBalancingStrategy {
         List<Backend> eligible = new ArrayList<>();
 
         for (Backend backend : backends) {
-            if (backend != null && backend.isHealthy()) {
+            if (backend != null && backend.isHealthy() && backend.isEnabled()) {
                 eligible.add(backend);
             }
         }

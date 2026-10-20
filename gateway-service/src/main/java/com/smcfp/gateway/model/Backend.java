@@ -5,10 +5,11 @@ public class Backend {
     private String id;
     private String provider;
     private String url;
-    private int priority;
-    private int weight;
+    private int priority = 1;
+    private int weight = 1;
     private int activeConnections;
-    private boolean healthy;
+    private boolean healthy = true;
+    private boolean enabled = true;
 
     public Backend() {
     }
@@ -67,5 +68,13 @@ public class Backend {
 
     public void setHealthy(boolean healthy) {
         this.healthy = healthy;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
