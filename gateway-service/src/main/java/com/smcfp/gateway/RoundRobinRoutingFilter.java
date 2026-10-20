@@ -1,4 +1,3 @@
-
 package com.smcfp.gateway;
 
 import com.smcfp.gateway.loadbalancer.RoundRobinStrategy;
@@ -70,6 +69,31 @@ public class RoundRobinRoutingFilter implements GlobalFilter, Ordered {
         exchange.getAttributes().put(
                 ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR,
                 URI.create(target));
+
+        exchange.getAttributes().put(
+                "smcfp.selectedBackend",
+                selected.getProvider());
+
+        Object holderObject = exchange.getAttribute(
+                "smcfp.backendHolder");
+
+        if (holderObject instanceof GatewayLoggingFilter.BackendHolder holder) {
+            holder.setBackend(selected.getProvider());
+        }
+
+        String requestId = exchange.getAttribute("smcfp.requestId");
+
+        if (requestId == null || requestId.isBlank()) {
+            requestId = exchange.getRequest()
+                    .getHeaders()
+                    .getFirst("X-SMCFP-Request-Id");
+        }
+
+        System.out.println(
+                "[REQUEST] ID: " + requestId
+                + " | Path: " + path
+                + " | Backend: " + selected.getProvider()
+                + " | Attempt: 1");
 
         System.out.println(
                 "[ROUND ROBIN] Selected backend: "
