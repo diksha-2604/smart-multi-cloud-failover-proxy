@@ -1,3 +1,4 @@
+
 package com.smcfp.gateway.loadbalancer;
 
 import com.smcfp.gateway.model.Backend;
@@ -22,6 +23,10 @@ class RoundRobinStrategyTest {
         Backend b2 = new Backend();
         Backend b3 = new Backend();
 
+        b1.setHealthy(true);
+        b2.setHealthy(true);
+        b3.setHealthy(true);
+
         List<Backend> backends = List.of(b1, b2, b3);
         RoundRobinStrategy strategy = new RoundRobinStrategy();
 
@@ -34,12 +39,15 @@ class RoundRobinStrategyTest {
     @Test
     void shouldReturnNullForEmptyBackendList() {
         RoundRobinStrategy strategy = new RoundRobinStrategy();
+
         assertNull(strategy.select(List.of()));
     }
 
     @Test
     void shouldAlwaysSelectSingleBackend() {
         Backend b1 = new Backend();
+        b1.setHealthy(true);
+
         RoundRobinStrategy strategy = new RoundRobinStrategy();
         List<Backend> backends = List.of(b1);
 
@@ -53,6 +61,10 @@ class RoundRobinStrategyTest {
         Backend b1 = new Backend();
         Backend b2 = new Backend();
         Backend b3 = new Backend();
+
+        b1.setHealthy(true);
+        b2.setHealthy(true);
+        b3.setHealthy(true);
 
         List<Backend> backends = List.of(b1, b2, b3);
         RoundRobinStrategy strategy = new RoundRobinStrategy();
@@ -91,6 +103,24 @@ class RoundRobinStrategyTest {
     @Test
     void shouldReturnNullForNullBackendList() {
         RoundRobinStrategy strategy = new RoundRobinStrategy();
+
         assertNull(strategy.select(null));
     }
+    @Test
+void shouldSkipUnhealthyBackends() {
+    Backend b1 = new Backend();
+    Backend b2 = new Backend();
+    Backend b3 = new Backend();
+
+    b1.setHealthy(true);
+    b2.setHealthy(false);
+    b3.setHealthy(true);
+
+    List<Backend> backends = List.of(b1, b2, b3);
+    RoundRobinStrategy strategy = new RoundRobinStrategy();
+
+    assertSame(b1, strategy.select(backends));
+    assertSame(b3, strategy.select(backends));
+    assertSame(b1, strategy.select(backends));
+}
 }
